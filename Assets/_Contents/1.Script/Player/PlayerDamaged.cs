@@ -1,7 +1,13 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class PlayerDamaged : MonoBehaviour
 {
+    [SerializeField] private int INITIAL_HP;
+    [SerializeField] private float DAMAGE_COOL_TIME;
+
+    private bool _isCoolTime;
+
     private int _hp;
     public int HP
     {
@@ -13,6 +19,11 @@ public class PlayerDamaged : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        HP = INITIAL_HP;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IAttackPlayer attackPlayer = collision.GetComponent<IAttackPlayer>();
@@ -22,10 +33,15 @@ public class PlayerDamaged : MonoBehaviour
         }
     }
 
-    private void Damage(int damage)
+    private async void Damage(int damage)
     {
+        if (_isCoolTime) return;
+        _isCoolTime = true;
         HP -= damage;
-        Debug.Log($"Player Damaged: {damage}");
+
+        await UniTask.WaitForSeconds(DAMAGE_COOL_TIME);
+        
+        _isCoolTime = false;
     }
 
     private void Death()

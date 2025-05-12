@@ -20,10 +20,7 @@ public class Enemy : MonoBehaviour, IAttacked, IAttackPlayer
         }
     }
 
-    public int attackPower
-    {
-        get => ATTACK_POWER; set => ATTACK_POWER = value;
-    }
+    public int attackPower { get => ATTACK_POWER; }
 
     private void Start()
     {

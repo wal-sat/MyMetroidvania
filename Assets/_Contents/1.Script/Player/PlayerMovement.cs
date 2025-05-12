@@ -1,12 +1,12 @@
-using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float MOVE_SPEED = 5f;
+    
+    [HideInInspector] public bool isFacingRight;
 
     private Rigidbody2D _rigidbody;
-    public bool isFacingRight;
 
     private void Awake()
     {
