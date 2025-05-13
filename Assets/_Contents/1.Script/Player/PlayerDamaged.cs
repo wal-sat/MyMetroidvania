@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 
 public class PlayerDamaged : MonoBehaviour
 {
+    [SerializeField] GameObject DamageParticle;
     [SerializeField] private int INITIAL_HP;
     [SerializeField] private float DAMAGE_COOL_TIME;
 
@@ -39,9 +40,12 @@ public class PlayerDamaged : MonoBehaviour
         _isCoolTime = true;
         HP -= damage;
 
+        GameObject particle = Instantiate(DamageParticle, transform.position, Quaternion.identity);
+
         await UniTask.WaitForSeconds(DAMAGE_COOL_TIME);
         
         _isCoolTime = false;
+        Destroy(particle);
     }
 
     private void Death()

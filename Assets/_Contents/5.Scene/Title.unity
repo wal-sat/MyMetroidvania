@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8b70ecfe0b33845976c0dca89e1535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageParticle: {fileID: 6936780031156581804, guid: 9aec7651c5e67334288b0f5ab4e45d11, type: 3}
   INITIAL_HP: 10
   DAMAGE_COOL_TIME: 0.55
   ATTACK_POWER: 2
@@ -855,7 +856,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -10, y: -6, z: 0}
-  m_Size: {x: 19, y: 6, z: 1}
+  m_Size: {x: 19, y: 10, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -1463,6 +1464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6c1f8df562b2d42b408acc81724584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageParticle: {fileID: 4292792636000695704, guid: 7a327fcd7d87e554f9f50bcebb05edc1, type: 3}
   INITIAL_HP: 10
   DAMAGE_COOL_TIME: 0.55
 --- !u!1 &1057169756
