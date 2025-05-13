@@ -57,6 +57,9 @@ public class S_SEManager : Singleton<S_SEManager>
         }
     }
 
+    /// <summary>
+    /// 未使用のAudioSourceを取得する
+    /// </summary>
     private AudioSource GetUnusedAudioSource()
     {
         for (var i = 0; i < _audioSourceList.Length; ++i)
@@ -64,7 +67,7 @@ public class S_SEManager : Singleton<S_SEManager>
             if (_audioSourceList[i].isPlaying == false) return _audioSourceList[i];
         }
 
-        Debug.Log("audioSourceがない");
+        Debug.LogError("未使用のAudioSourceがありません");
         return null;
     }
 }

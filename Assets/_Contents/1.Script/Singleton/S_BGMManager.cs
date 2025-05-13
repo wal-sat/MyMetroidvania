@@ -26,7 +26,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
                 _clipIndex = value;
                 if (_clipIndex >= audioClip.Length) _clipIndex = 0;
 
-                audioSource.clip = audioClip[_clipIndex];
+                if (audioSource != null) audioSource.clip = audioClip[_clipIndex];
             }
         }
 
@@ -39,6 +39,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     [SerializeField] float MAX_VOLUME;
     [SerializeField] List<BGMInfo> BGMList = new List<BGMInfo>();
 
+    private AudioSource[] _audioSourceList = new AudioSource[5];
     private Dictionary<string, BGMInfo> _BGMDictionary = new Dictionary<string, BGMInfo>();
     private float _volume;
  
@@ -46,20 +47,20 @@ public class S_BGMManager : Singleton<S_BGMManager>
     {
         base.Awake();
 
-        for (var i = 0; i < BGMList.Count; ++i)
+        for (int i = 0; i < BGMList.Count; ++i) _BGMDictionary.Add(BGMList[i].name, BGMList[i]);
+        for (int i = 0; i < _audioSourceList.Length; ++i)
         {
-            BGMList[i].audioSource = gameObject.AddComponent<AudioSource>();
-            BGMList[i].audioSource.loop = false;
-            BGMList[i].audioSource.priority = 1;
-            BGMList[i].audioSource.volume = 0;
-
-            _BGMDictionary.Add(BGMList[i].name, BGMList[i]);
+            _audioSourceList[i] = gameObject.AddComponent<AudioSource>();
+            _audioSourceList[i].loop = false;
+            _audioSourceList[i].priority = 1;
+            _audioSourceList[i].volume = 0;
         }
     }
     public void Update()
     {
         foreach (var item in _BGMDictionary.Values)
         {
+            if (item.audioSource == null) continue;
             if ( (item.status == BGMStatus.fadeIn || item.status == BGMStatus.play || item.status == BGMStatus.fadeOut) && item.IsFinished())
             {
                 item.clipIndex++;
@@ -88,7 +89,10 @@ public class S_BGMManager : Singleton<S_BGMManager>
             if (BGMInfo.status == BGMStatus.fadeOut || BGMInfo.status == BGMStatus.pause) {
                 ResumeAsync(BGMInfo, fadeTime, BGMInfo.cancellationTokenSource.Token);
             }
-            else {
+            else if (BGMInfo.status == BGMStatus.stop || BGMInfo.status == BGMStatus.none) {
+                BGMInfo.audioSource = GetUnusedAudioSource();
+                if (BGMInfo.audioSource == null) return;
+
                 BGMInfo.clipIndex = BGMInfo.clipIndex;
                 PlayAsync(BGMInfo, fadeTime, BGMInfo.cancellationTokenSource.Token);
             }
@@ -157,6 +161,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
         }
         BGMInfo.audioSource.volume = 0;
         BGMInfo.audioSource.Stop();
+        BGMInfo.audioSource = null;
         BGMInfo.cancellationTokenSource = null;
         BGMInfo.status = BGMStatus.stop;
     }
@@ -236,5 +241,21 @@ public class S_BGMManager : Singleton<S_BGMManager>
             if (item.status == BGMStatus.fadeIn || item.status == BGMStatus.play) playingBGM.Add(item.name);
         }
         return playingBGM;
+    }
+
+    /// <summary>
+    /// 未使用のAudioSourceを取得する
+    /// </summary>
+    private AudioSource GetUnusedAudioSource()
+    {
+        List<AudioSource> audioSourceList = _audioSourceList.ToList();
+        foreach (var item in _BGMDictionary.Values)
+        {
+            if (item.audioSource != null) audioSourceList.Remove(item.audioSource);
+        }
+        if (audioSourceList.Count > 0) return audioSourceList[0];
+
+        Debug.LogError("未使用のAudioSourceがありません");
+        return null;
     }
 }
