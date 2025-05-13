@@ -24,7 +24,7 @@ public class PlayerDamaged : MonoBehaviour
         HP = INITIAL_HP;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         IAttackPlayer attackPlayer = collision.GetComponent<IAttackPlayer>();
         if (attackPlayer != null)
