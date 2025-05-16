@@ -3,34 +3,25 @@ using Cysharp.Threading.Tasks;
 
 public class PlayerDamaged : MonoBehaviour
 {
+    [SerializeField] UIManager uiManager;
     [SerializeField] GameObject DamageParticle;
-    [SerializeField] private int INITIAL_HP;
     [SerializeField] private float DAMAGE_COOL_TIME;
 
     private bool _isCoolTime;
 
-    private int _hp;
-    public int HP
-    {
-        get => _hp;
-        set
-        {
-            _hp = value;
-            if (_hp <= 0) Death();
-        }
-    }
-
     private void Start()
     {
-        HP = INITIAL_HP;
+        S_PlayerInformation.instance.Initialize();
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void Update()
     {
-        IAttackPlayer attackPlayer = collision.GetComponent<IAttackPlayer>();
-        if (attackPlayer != null)
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0, LayerMask.GetMask("Enemy"));
+
+        foreach (var enemy in hitEnemies)
         {
-            Damage(attackPlayer.attackPower);
+            IAttackPlayer attackPlayer = enemy.GetComponent<IAttackPlayer>();
+            if (attackPlayer != null) Damage(attackPlayer.attackPower);
         }
     }
 
@@ -38,9 +29,12 @@ public class PlayerDamaged : MonoBehaviour
     {
         if (_isCoolTime) return;
         _isCoolTime = true;
-        HP -= damage;
+        int currentHP = S_PlayerInformation.instance.DamageHp(damage);
+        uiManager.HPTextUpdate(currentHP, S_PlayerInformation.instance.MAX_HP_AMOUNT);
+        if (currentHP <= 0) Death();
 
-        GameObject particle = Instantiate(DamageParticle, transform.position, Quaternion.identity);
+        uiManager.DisplayDamageText(damage, transform.position);
+        GameObject particle = Instantiate(DamageParticle, transform.position + Vector3.back, Quaternion.identity);
 
         await UniTask.WaitForSeconds(DAMAGE_COOL_TIME);
         

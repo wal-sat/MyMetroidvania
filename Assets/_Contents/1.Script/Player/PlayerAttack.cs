@@ -6,6 +6,8 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] GameObject _attackPoint;
     [SerializeField] float ATTACK_DISTANCE;
+    [SerializeField] float ATTACK_TIME;
+    [SerializeField] float ATTACK_COOL_TIME;
 
     public Action<PlayerState> changePlayerState;
     private bool _isAttacking;
@@ -29,12 +31,12 @@ public class PlayerAttack : MonoBehaviour
         _attackPoint.SetActive(true);
         changePlayerState(PlayerState.attack);
 
-        await UniTask.WaitForSeconds(0.5f);
+        await UniTask.WaitForSeconds(ATTACK_TIME);
 
         _attackPoint.SetActive(false);
         changePlayerState(PlayerState.normal);
 
-        await UniTask.WaitForSeconds(0.25f);
+        await UniTask.WaitForSeconds(ATTACK_COOL_TIME);
 
         _isAttacking = false;
     }
