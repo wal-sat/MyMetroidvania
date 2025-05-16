@@ -35,13 +35,12 @@ public class EnemyBase : MonoBehaviour, IAttacked, IAttackPlayer
         _isCoolTime = true;
         HP -= damage;
 
-        uiManager.DisplayDamageText(damage, transform.position);
-        GameObject particle = Instantiate(DamageParticle, transform.position + Vector3.back, Quaternion.identity);
+        uiManager.DisplayDamageText(damage, transform.position, Color.green);
+        Instantiate(DamageParticle, transform.position + Vector3.back, Quaternion.identity);
 
         await UniTask.WaitForSeconds(DAMAGE_COOL_TIME);
         
         _isCoolTime = false;
-        Destroy(particle);
     }
 
     private void Death()

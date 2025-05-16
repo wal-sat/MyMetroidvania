@@ -32,13 +32,12 @@ public class PlayerDamaged : MonoBehaviour
         int currentHP = S_PlayerInformation.instance.DamageHp(damage);
         if (currentHP <= 0) Death();
 
-        uiManager.DisplayDamageText(damage, transform.position);
-        GameObject particle = Instantiate(DamageParticle, transform.position + Vector3.back, Quaternion.identity);
+        uiManager.DisplayDamageText(damage, transform.position, Color.red);
+        Instantiate(DamageParticle, transform.position + Vector3.back, Quaternion.identity);
 
         await UniTask.WaitForSeconds(DAMAGE_COOL_TIME);
         
         _isCoolTime = false;
-        Destroy(particle);
     }
 
     private void Death()

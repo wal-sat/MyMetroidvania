@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,9 +21,9 @@ public class UIManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        S_PlayerInformation.instance.SubscribeHPAmountUpdateCallback(HPTextUpdate, false);
-        S_PlayerInformation.instance.SubscribeCoinCountUpdateCallback(CoinTextUpdate, false);
-        S_PlayerInformation.instance.SubscribeCrystalCountUpdateCallback(CrystalTextUpdate, false);
+        if (S_PlayerInformation.instance != null) S_PlayerInformation.instance.SubscribeHPAmountUpdateCallback(HPTextUpdate, false);
+        if (S_PlayerInformation.instance != null) S_PlayerInformation.instance.SubscribeCoinCountUpdateCallback(CoinTextUpdate, false);
+        if (S_PlayerInformation.instance != null) S_PlayerInformation.instance.SubscribeCrystalCountUpdateCallback(CrystalTextUpdate, false);
     }
 
     private void HPTextUpdate(int hpAmount)
@@ -38,7 +39,7 @@ public class UIManager : MonoBehaviour
         crystalText.text = crystalCount.ToString();
     }
 
-    public void DisplayDamageText(int damage, Vector3 position)
+    public void DisplayDamageText(int damage, Vector3 position, Color textColor)
     {
         Camera cam = worldSpaceCanvas.worldCamera;
         Vector3 screenPos = cam.WorldToScreenPoint(position + DAMAGE_TEXT_OFFSET);
@@ -46,6 +47,9 @@ public class UIManager : MonoBehaviour
 
         GameObject damageText = Instantiate(damegeText, localPos, Quaternion.identity);
         damageText.transform.SetParent(worldSpaceCanvas.transform, false);
-        damageText.GetComponent<TextMeshProUGUI>().text = damage.ToString();
+
+        TextMeshProUGUI tmp = damageText.GetComponent<TextMeshProUGUI>();
+        tmp.text = damage.ToString();
+        tmp.color = textColor;
     }
 }

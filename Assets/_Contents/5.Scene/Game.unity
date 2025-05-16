@@ -4102,8 +4102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83221566d217f33469b8db785c536624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemManager: {fileID: 1867710959}
-  _itemView: {fileID: 1972644813}
+  itemManager: {fileID: 1867710959}
+  itemView: {fileID: 1972644813}
+  itemParticle: {fileID: 6328302066103494217, guid: d13568a45c782f846a4cbb8847f6130e, type: 3}
 --- !u!1 &1717559233
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,9 +4150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX_HP_AMOUNT: 10
-  hpAmount: 0
-  coinCount: 0
-  crystalCount: 0
 --- !u!1 &1786865642
 GameObject:
   m_ObjectHideFlags: 0
@@ -4329,8 +4327,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ef2a7f79b7fd54ea483d2842e0b2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemManager: {fileID: 1867710959}
-  _itemView: {fileID: 477883140}
+  itemManager: {fileID: 1867710959}
+  itemView: {fileID: 477883140}
+  itemParticle: {fileID: 6328302066103494217, guid: d13568a45c782f846a4cbb8847f6130e, type: 3}
 --- !u!1 &1846455951
 GameObject:
   m_ObjectHideFlags: 0
