@@ -5,6 +5,8 @@ public class ItemBase : MonoBehaviour
     [SerializeField] ItemManager _itemManager;
     [SerializeField] ItemView _itemView;
 
+    private bool _isEnable;
+
     private void Awake()
     {
         _itemManager.Register(this);
@@ -14,17 +16,19 @@ public class ItemBase : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Get();
+            if (_isEnable) Get();
         }
     }
 
     protected virtual void Get()
     {
+        _isEnable = false;
         _itemView.ChangeSprite(false);
     }
 
     public virtual void Initialize()
     {
+        _isEnable = true;
         _itemView.ChangeSprite(true);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
 
 public class ItemManager : MonoBehaviour
 {
@@ -11,7 +10,6 @@ public class ItemManager : MonoBehaviour
         if (!_items.Contains(item)) _items.Add(item);
     }
 
-    [Button]
     public void Initialize()
     {
         foreach (var item in _items)
