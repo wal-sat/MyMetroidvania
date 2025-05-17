@@ -7,6 +7,8 @@ public class GameSceneManager : MonoBehaviour
 
     private void Start()
     {
+        S_InputSystem.instance.SwitchActionMap(ActionMapKind.Player);
+        
         Initialize();
     }
 

@@ -8,7 +8,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 	{
 		if (instance)
 		{
-			Destroy(this);
+			Destroy(this.gameObject);
 			return;
 		}
 
