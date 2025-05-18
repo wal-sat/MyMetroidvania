@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
@@ -7,8 +8,17 @@ public class BurstParticle : MonoBehaviour
 
     private async void Start()
     {
-        await UniTask.WaitForSeconds(DESTROY_TIME);
+        try
+        {
+            var token = this.GetCancellationTokenOnDestroy();
 
-        Destroy(this.gameObject);
+            await UniTask.WaitForSeconds(DESTROY_TIME, cancellationToken: token);
+
+            Destroy(this.gameObject);
+        }
+        catch (OperationCanceledException)
+        {
+            ;
+        }
     }
 }

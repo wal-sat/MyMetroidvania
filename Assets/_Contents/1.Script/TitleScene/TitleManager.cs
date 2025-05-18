@@ -8,6 +8,7 @@ public class TitleManager : MonoBehaviour
 {
     [SerializeField] TitleMenu titleMenu;
     [SerializeField] TitleSetting titleSetting;
+    [SerializeField] TitleUIManager titleUIManager;
 
     private bool _isNavigateUp;
     private bool _isNavigateDown;
@@ -25,8 +26,11 @@ public class TitleManager : MonoBehaviour
     }
     private void Start()
     {
-        S_InputSystem.instance.canInput = true;
         S_InputSystem.instance.SwitchActionMap(ActionMapKind.UI);
+
+        S_BGMManager.instance.Play("title", 2f);
+
+        ChangeTitleStatus(TitleStatus.menu);
     }
 
     private void Update()
@@ -59,6 +63,7 @@ public class TitleManager : MonoBehaviour
                 titleMenu.NavigateUp();
                 break;
             case TitleStatus.setting:
+                titleSetting.NavigateUp();
                 break;
         }
     }
@@ -71,6 +76,7 @@ public class TitleManager : MonoBehaviour
                 titleMenu.NavigateDown();
                 break;
             case TitleStatus.setting:
+                titleSetting.NavigateDown();
                 break;
         }
     }
@@ -82,6 +88,7 @@ public class TitleManager : MonoBehaviour
             case TitleStatus.menu:
                 break;
             case TitleStatus.setting:
+                titleSetting.NavigateRight();
                 break;
         }
     }
@@ -93,6 +100,7 @@ public class TitleManager : MonoBehaviour
             case TitleStatus.menu:
                 break;
             case TitleStatus.setting:
+                titleSetting.NavigateLeft();
                 break;
         }
     }
@@ -105,6 +113,7 @@ public class TitleManager : MonoBehaviour
                 titleMenu.Submit();
                 break;
             case TitleStatus.setting:
+                titleSetting.Submit();
                 break;
         }
     }
@@ -116,6 +125,7 @@ public class TitleManager : MonoBehaviour
             case TitleStatus.menu:
                 break;
             case TitleStatus.setting:
+                titleSetting.Cancel();
                 break;
         }
     }
@@ -123,5 +133,15 @@ public class TitleManager : MonoBehaviour
     private void ChangeTitleStatus(TitleStatus titleStatus)
     {
         _titleStatus = titleStatus;
+
+        switch (_titleStatus)
+        {
+            case TitleStatus.menu:
+                titleUIManager.DisplaySettingPanel(false);
+                break;
+            case TitleStatus.setting:
+                titleUIManager.DisplaySettingPanel(true);
+                break;
+        }
     }
 }

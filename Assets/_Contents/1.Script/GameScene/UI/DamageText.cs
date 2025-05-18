@@ -15,8 +15,8 @@ public class DamageText : MonoBehaviour
 
     private void Start()
     {
-        _canvasGroup.DOFade(0f, DAMAGE_TEXT_LIFE_TIME / 2).SetEase(Ease.Linear).SetDelay(DAMAGE_TEXT_LIFE_TIME / 2);
-        transform.DOLocalMoveY(transform.localPosition.y + DAMAGE_TEXT_MOVE_DiSTANCE, DAMAGE_TEXT_LIFE_TIME).SetEase(Ease.OutSine)
+        _canvasGroup.DOFade(0f, DAMAGE_TEXT_LIFE_TIME / 2).SetEase(Ease.Linear).SetDelay(DAMAGE_TEXT_LIFE_TIME / 2).SetLink(this.gameObject);
+        transform.DOLocalMoveY(transform.localPosition.y + DAMAGE_TEXT_MOVE_DiSTANCE, DAMAGE_TEXT_LIFE_TIME).SetEase(Ease.OutSine).SetLink(this.gameObject)
         .OnComplete(() => {
             Destroy(gameObject);
         });
