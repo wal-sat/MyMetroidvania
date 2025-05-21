@@ -22,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
         if (isFacingRight) _attackPoint.transform.localPosition = new Vector3(ATTACK_DISTANCE, 0, transform.localPosition.z);
         else _attackPoint.transform.localPosition = new Vector3(-ATTACK_DISTANCE, 0, transform.localPosition.z);
 
-        if (S_InputSystem.instance.isPushingAttack && !_isAttacking) Attack();
+        if (S_InputSystemManager.instance.isPushingAttack && !_isAttacking) Attack();
     }
 
     private async void Attack()

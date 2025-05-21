@@ -9,11 +9,6 @@ public class PlayerDamaged : MonoBehaviour
 
     private bool _isCoolTime;
 
-    public void Initialize()
-    {
-        int currentHP = S_PlayerInformation.instance.SetMaxHP();
-    }
-
     public void DamageUpdate()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0, LayerMask.GetMask("Enemy"));

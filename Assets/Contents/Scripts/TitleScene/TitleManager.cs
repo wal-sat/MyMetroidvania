@@ -26,7 +26,7 @@ public class TitleManager : MonoBehaviour
     }
     private void Start()
     {
-        S_InputSystem.instance.SwitchActionMap(ActionMapKind.UI);
+        S_InputSystemManager.instance.SwitchActionMap(ActionMapKind.UI);
 
         S_BGMManager.instance.Play("title", 2f);
 
@@ -35,23 +35,23 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
-        if (S_InputSystem.instance.UIMove == Vector2.up && !_isNavigateUp) NavigateUp();
-        else if (S_InputSystem.instance.UIMove != Vector2.up && _isNavigateUp) _isNavigateUp = false;
+        if (S_InputSystemManager.instance.UIMove == Vector2.up && !_isNavigateUp) NavigateUp();
+        else if (S_InputSystemManager.instance.UIMove != Vector2.up && _isNavigateUp) _isNavigateUp = false;
 
-        if (S_InputSystem.instance.UIMove == Vector2.down && !_isNavigateDown) NavigateDown();
-        else if (S_InputSystem.instance.UIMove != Vector2.down && _isNavigateDown) _isNavigateDown = false;
+        if (S_InputSystemManager.instance.UIMove == Vector2.down && !_isNavigateDown) NavigateDown();
+        else if (S_InputSystemManager.instance.UIMove != Vector2.down && _isNavigateDown) _isNavigateDown = false;
 
-        if (S_InputSystem.instance.UIMove == Vector2.right && !_isNavigateRight) NavigateRight();
-        else if (S_InputSystem.instance.UIMove != Vector2.right && _isNavigateRight) _isNavigateRight = false;
+        if (S_InputSystemManager.instance.UIMove == Vector2.right && !_isNavigateRight) NavigateRight();
+        else if (S_InputSystemManager.instance.UIMove != Vector2.right && _isNavigateRight) _isNavigateRight = false;
 
-        if (S_InputSystem.instance.UIMove == Vector2.left && !_isNavigateLeft) NavigateLeft();
-        else if (S_InputSystem.instance.UIMove != Vector2.left && _isNavigateLeft) _isNavigateLeft = false;
+        if (S_InputSystemManager.instance.UIMove == Vector2.left && !_isNavigateLeft) NavigateLeft();
+        else if (S_InputSystemManager.instance.UIMove != Vector2.left && _isNavigateLeft) _isNavigateLeft = false;
 
-        if (S_InputSystem.instance.isPushingSubmit && !_isSubmit) Submit();
-        else if (!S_InputSystem.instance.isPushingSubmit && _isSubmit) _isSubmit = false;
+        if (S_InputSystemManager.instance.isPushingSubmit && !_isSubmit) Submit();
+        else if (!S_InputSystemManager.instance.isPushingSubmit && _isSubmit) _isSubmit = false;
 
-        if (S_InputSystem.instance.isPushingCancel && !_isCancel) Cancel();
-        else if (!S_InputSystem.instance.isPushingCancel && _isCancel) _isCancel = false;
+        if (S_InputSystemManager.instance.isPushingCancel && !_isCancel) Cancel();
+        else if (!S_InputSystemManager.instance.isPushingCancel && _isCancel) _isCancel = false;
     }
 
     private void NavigateUp()

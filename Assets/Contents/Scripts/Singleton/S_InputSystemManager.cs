@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public enum ActionMapKind { Player, UI }
 
-public class S_InputSystem : Singleton<S_InputSystem>
+public class S_InputSystemManager : Singleton<S_InputSystemManager>
 {
     [HideInInspector] public Vector2 playerMove;
     [HideInInspector] public float dashDirection;
@@ -27,6 +27,9 @@ public class S_InputSystem : Singleton<S_InputSystem>
         playerInput = GetComponent<PlayerInput>();
     }
 
+    /// <summary>
+    /// アクションマップを切り替える
+    /// </summary>
     public void SwitchActionMap(ActionMapKind actionMap)
     {
         if (playerInput.currentActionMap.name == actionMap.ToString()) return;
@@ -34,6 +37,9 @@ public class S_InputSystem : Singleton<S_InputSystem>
         playerInput.SwitchCurrentActionMap(actionMap.ToString());
     }
 
+    /// <summary>
+    /// 入力受付の制限の状態を変更する
+    /// </summary>
     public void SetLockInputDictionary(GameObject gameObject, bool canInput)
     {
         if (_lockInputDictionary.ContainsKey(gameObject)) _lockInputDictionary[gameObject] = canInput;

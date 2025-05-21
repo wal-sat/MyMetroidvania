@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void MovementUpdate()
     {
-        Move(S_InputSystem.instance.playerMove);
+        Move(S_InputSystemManager.instance.playerMove);
     }
 
     private void Move(Vector2 direction)

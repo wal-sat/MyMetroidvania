@@ -43,7 +43,6 @@ public class PlayerManager : MonoBehaviour
     public void Initialize()
     {
         S_PlayerInformation.instance.Initialize();
-        playerDamaged.Initialize();
         _playerState = PlayerState.normal; 
     }
 }

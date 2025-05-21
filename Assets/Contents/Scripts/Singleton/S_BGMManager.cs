@@ -72,6 +72,8 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// <summary>
     /// BGMを再生する
     /// </summary>
+    /// <param name="name">BGMの名前</param>
+    /// <param name="fadeTime">フェードインの時間</param>
     public void Play(string name, float fadeTime)
     {
         List<string> playingBGM = GetPlayingBGM();
@@ -137,6 +139,8 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// <summary>
     /// BGMを停止する
     /// </summary>
+    /// <param name="name">BGMの名前</param>
+    /// <param name="fadeTime">フェードアウトの時間</param>
     public void Stop(string name, float fadeTime)
     {
         if (_BGMDictionary.TryGetValue(name, out var BGMInfo))
@@ -169,6 +173,8 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// <summary>
     /// BGMを一時停止する
     /// </summary>
+    /// <param name="name">BGMの名前</param>
+    /// <param name="fadeTime">フェードアウトの時間</param>
     public void Pause(string name, float fadeTime)
     {
         if (_BGMDictionary.TryGetValue(name, out var BGMInfo))

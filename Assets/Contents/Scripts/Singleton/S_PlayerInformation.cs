@@ -47,15 +47,12 @@ public class S_PlayerInformation : Singleton<S_PlayerInformation>
 
     public void Initialize()
     {
+        hpAmount = MAX_HP_AMOUNT;
         coinCount = 0;
         crystalCount = 0;
     }
 
-    public int SetMaxHP()
-    {
-        hpAmount = MAX_HP_AMOUNT;
-        return hpAmount;
-    }
+    // ステータスを変更する
     public int DamageHp(int damage)
     {
         hpAmount -= damage;
@@ -72,6 +69,7 @@ public class S_PlayerInformation : Singleton<S_PlayerInformation>
         return crystalCount;
     }
 
+    // ステータス変更時のコールバックを登録する
     public void SubscribeHPAmountUpdateCallback(Action<int> action, bool isSubscribe = true)
     {
         if (isSubscribe) OnHPAmountUpdateCallback += action;

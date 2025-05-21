@@ -16,8 +16,8 @@ public class PlayerJump : MonoBehaviour
     }
     public void JumpUpdate()
     {
-        if (S_InputSystem.instance.isPushingJump && !_isJumping && IsLanding()) Jump();
-        else if (!S_InputSystem.instance.isPushingJump && _isJumping) JumpCancel();
+        if (S_InputSystemManager.instance.isPushingJump && !_isJumping && IsLanding()) Jump();
+        else if (!S_InputSystemManager.instance.isPushingJump && _isJumping) JumpCancel();
     }
 
     private void Jump()
