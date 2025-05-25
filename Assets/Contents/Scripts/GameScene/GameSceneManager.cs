@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GameSceneManager : MonoBehaviour
 {
-    [SerializeField] PlayerManager playerManager;
-    [SerializeField] ItemManager itemManager;
+    [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private ItemManager _itemManager;
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class GameSceneManager : MonoBehaviour
 
     private void Initialize()
     {
-        playerManager.Initialize();
-        itemManager.Initialize();
+        _playerManager.Initialize();
+        _itemManager.Initialize();
     }
 }

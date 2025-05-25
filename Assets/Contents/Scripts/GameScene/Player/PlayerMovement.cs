@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float MOVE_SPEED = 5f;
+    [SerializeField] private float _moveSpeed = 5f;
     
-    [HideInInspector] public bool isFacingRight = true;
+    [HideInInspector] public bool IsFacingRight = true;
 
     private Rigidbody2D _rigidbody;
 
@@ -20,9 +20,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move(Vector2 direction)
     {
-        _rigidbody.linearVelocity = new Vector2(direction.x * MOVE_SPEED * Time.fixedDeltaTime, _rigidbody.linearVelocityY);
+        _rigidbody.linearVelocity = new Vector2(direction.x * _moveSpeed * Time.fixedDeltaTime, _rigidbody.linearVelocityY);
 
-        if (direction.x > 0f) isFacingRight = true;
-        else if (direction.x < 0f) isFacingRight = false;
+        if (direction.x > 0f) IsFacingRight = true;
+        else if (direction.x < 0f) IsFacingRight = false;
     }
 }

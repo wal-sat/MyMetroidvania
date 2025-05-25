@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class JumpEnemy : EnemyBase
 {
-    enum WalkState { walk, jump }
+    private enum WalkState { Walk, Jump }
 
     [SerializeField] private EnemyView _enemyView;
-    [SerializeField] private float MOVE_SPEED;
-    [SerializeField] private float JUMP_FORCE;
-    [SerializeField] private float STATE_CHANGE_TIME;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private float _stageChangeTime;
     private Rigidbody2D _rigidbody2D;
     private WalkState _walkState;
 
@@ -22,29 +22,29 @@ public class JumpEnemy : EnemyBase
     public override void Start()
     {
         base.Start();
-        _walkState = WalkState.walk;
+        _walkState = WalkState.Walk;
     }
 
     private void FixedUpdate()
     {
         switch (_walkState)
         {
-            case WalkState.walk:
+            case WalkState.Walk:
                 _timer += Time.deltaTime;
-                transform.position += new Vector3( _isFacingRight * MOVE_SPEED, 0f, 0f) * Time.fixedDeltaTime;
-                if (_timer >= STATE_CHANGE_TIME)
+                transform.position += new Vector3( _isFacingRight * _moveSpeed, 0f, 0f) * Time.fixedDeltaTime;
+                if (_timer >= _stageChangeTime)
                 {
                     _isJumping = true;
-                    _walkState = WalkState.jump;
+                    _walkState = WalkState.Jump;
                     _timer = 0f;
-                    _rigidbody2D.AddForce(Vector2.up * JUMP_FORCE, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
                 }
                 break;
-            case WalkState.jump:
+            case WalkState.Jump:
                 _timer += Time.deltaTime;
-                if (_timer >= STATE_CHANGE_TIME)
+                if (_timer >= _stageChangeTime)
                 {
-                    _walkState = WalkState.walk;
+                    _walkState = WalkState.Walk;
                     _timer = 0f;
                     _isFacingRight = -_isFacingRight;
                     _enemyView.ChangeScaleX(_isFacingRight);
@@ -61,8 +61,8 @@ public class JumpEnemy : EnemyBase
 
         if (_isJumping) return;
         _isJumping = true;
-        _walkState = WalkState.jump;
+        _walkState = WalkState.Jump;
         _timer = 0f;
-        _rigidbody2D.AddForce(Vector2.up * JUMP_FORCE, ForceMode2D.Impulse);
+        _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 }

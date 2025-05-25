@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class WalkEnemy : EnemyBase
 {
-    enum WalkState { idle, walk, chase }
+    enum WalkState { Idle, Walk, Chase }
 
     [SerializeField] private Transform _player;
     [SerializeField] private EnemyView _enemyView;
-    [SerializeField] private float MOVE_SPEED;
-    [SerializeField] private float CHASE_SPEED;
-    [SerializeField] private float STATE_CHANGE_TIME;
-    [SerializeField] private float CHASE_DISTANCE;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _chaseSpeed;
+    [SerializeField] private float _stateChangeTime;
+    [SerializeField] private float _chaseDistance;
     private WalkState _walkState;
 
     private int _isFacingRight = 1;
@@ -18,12 +18,12 @@ public class WalkEnemy : EnemyBase
     public override void Start()
     {
         base.Start();
-        _walkState = WalkState.walk;
+        _walkState = WalkState.Walk;
     }
 
     private void FixedUpdate()
     {
-        if (_player == null) _walkState = WalkState.idle;
+        if (_player == null) _walkState = WalkState.Idle;
 
         Move();
         ChangeStage();
@@ -32,17 +32,17 @@ public class WalkEnemy : EnemyBase
     {
         switch (_walkState)
         {
-            case WalkState.idle:
+            case WalkState.Idle:
                 break;
-            case WalkState.walk:
-                transform.position += new Vector3( _isFacingRight * MOVE_SPEED, 0f, 0f) * Time.fixedDeltaTime;
+            case WalkState.Walk:
+                transform.position += new Vector3( _isFacingRight * _moveSpeed, 0f, 0f) * Time.fixedDeltaTime;
                 break;
-            case WalkState.chase:
+            case WalkState.Chase:
                 if (_isFacingRight == 1 && _player.position.x < transform.position.x) _isFacingRight = -1;
                 else if (_isFacingRight == -1 && _player.position.x > transform.position.x) _isFacingRight = 1;
                 _enemyView.ChangeScaleX(_isFacingRight);
 
-                transform.position += new Vector3(_isFacingRight * CHASE_SPEED, 0f, 0f) * Time.fixedDeltaTime;
+                transform.position += new Vector3(_isFacingRight * _chaseSpeed, 0f, 0f) * Time.fixedDeltaTime;
                 break;
         }
     }
@@ -50,28 +50,28 @@ public class WalkEnemy : EnemyBase
     {
         switch (_walkState)
         {
-            case WalkState.idle:
+            case WalkState.Idle:
                 _timer += Time.deltaTime;
-                if (_timer >= STATE_CHANGE_TIME)
+                if (_timer >= _stateChangeTime)
                 {
-                    _walkState = WalkState.walk;
+                    _walkState = WalkState.Walk;
                     _timer = 0f;
                     _isFacingRight = -_isFacingRight;
                     _enemyView.ChangeScaleX(_isFacingRight);
                 }
                 break;
-            case WalkState.walk:
+            case WalkState.Walk:
                 _timer += Time.deltaTime;
-                if (_timer >= STATE_CHANGE_TIME)
+                if (_timer >= _stateChangeTime)
                 {
-                    _walkState = WalkState.idle;
+                    _walkState = WalkState.Idle;
                     _timer = 0f;
                 }
                 break;
-            case WalkState.chase:
-                if (Vector2.SqrMagnitude(transform.position - _player.position) > CHASE_DISTANCE * CHASE_DISTANCE)
+            case WalkState.Chase:
+                if (Vector2.SqrMagnitude(transform.position - _player.position) > _chaseDistance * _chaseDistance)
                 {
-                    _walkState = WalkState.idle;
+                    _walkState = WalkState.Idle;
                     _timer = 0f;
                 }
                 break;
@@ -81,6 +81,6 @@ public class WalkEnemy : EnemyBase
     public override void Attacked(int damage)
     {
         base.Attacked(damage);
-        _walkState = WalkState.chase;
+        _walkState = WalkState.Chase;
     }
 }

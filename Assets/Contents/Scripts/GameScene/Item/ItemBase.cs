@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class ItemBase : MonoBehaviour
 {
-    [SerializeField] ItemManager itemManager;
-    [SerializeField] ItemView itemView;
-    [SerializeField] GameObject itemParticle;
+    [SerializeField] private ItemManager _itemManager;
+    [SerializeField] private ItemView _itemView;
+    [SerializeField] private GameObject _itemParticle;
 
     private bool _isEnable;
 
     private void Awake()
     {
-        itemManager.Register(this);
+        _itemManager.Register(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,13 +24,13 @@ public class ItemBase : MonoBehaviour
     protected virtual void Get()
     {
         _isEnable = false;
-        itemView.ChangeSprite(false);
-        Instantiate(itemParticle, transform.position + Vector3.forward, Quaternion.identity);
+        _itemView.ChangeSprite(false);
+        Instantiate(_itemParticle, transform.position + Vector3.forward, Quaternion.identity);
     }
 
     public virtual void Initialize()
     {
         _isEnable = true;
-        itemView.ChangeSprite(true);
+        _itemView.ChangeSprite(true);
     }
 }

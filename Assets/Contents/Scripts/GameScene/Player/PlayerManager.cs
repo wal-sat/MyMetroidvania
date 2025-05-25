@@ -1,28 +1,28 @@
 using UnityEngine;
 
-public enum PlayerState{ normal, attack }
+public enum PlayerState{ Normal, Attack }
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] PlayerMovement playerMovement;
-    [SerializeField] PlayerJump playerJump;
-    [SerializeField] PlayerAttack playerAttack;
-    [SerializeField] PlayerDamaged playerDamaged;
-    [SerializeField] PlayerView playerView;
+    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private PlayerJump _playerJump;
+    [SerializeField] private PlayerAttack _playerAttack;
+    [SerializeField] private PlayerDamaged _playerDamaged;
+    [SerializeField] private PlayerView _playerView;
 
     private PlayerState _playerState;
 
     private void Awake()
     {
-        playerAttack.changePlayerState += ChangePlayerState;
+        _playerAttack.changePlayerState += ChangePlayerState;
     }
     private void FixedUpdate()
     {
-        playerMovement.MovementUpdate();
-        playerJump.JumpUpdate();
-        playerAttack.AttackUpdate(playerMovement.isFacingRight);
-        playerDamaged.DamageUpdate();
-        playerView.ViewUpdate(playerMovement.isFacingRight);
+        _playerMovement.MovementUpdate();
+        _playerJump.JumpUpdate();
+        _playerAttack.AttackUpdate(_playerMovement.IsFacingRight);
+        _playerDamaged.DamageUpdate();
+        _playerView.ViewUpdate(_playerMovement.IsFacingRight);
     }
 
     private void ChangePlayerState(PlayerState playerState)
@@ -31,11 +31,11 @@ public class PlayerManager : MonoBehaviour
 
         switch (_playerState)
         {
-            case PlayerState.normal:
-                playerView.ChangeAttackSprite(false);
+            case PlayerState.Normal:
+                _playerView.ChangeAttackSprite(false);
                 break;
-            case PlayerState.attack:
-                playerView.ChangeAttackSprite(true);
+            case PlayerState.Attack:
+                _playerView.ChangeAttackSprite(true);
                 break;
         }
     }
@@ -43,6 +43,6 @@ public class PlayerManager : MonoBehaviour
     public void Initialize()
     {
         S_PlayerInformation.Instance.Initialize();
-        _playerState = PlayerState.normal; 
+        _playerState = PlayerState.Normal; 
     }
 }

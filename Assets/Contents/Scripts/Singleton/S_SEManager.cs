@@ -9,11 +9,11 @@ public class S_SEManager : Singleton<S_SEManager>
         public AudioClip audioClip;
     }
 
-    [SerializeField] float MAX_VOLUME;
-    [SerializeField] List<SEInfo> SEList = new List<SEInfo>();
+    [SerializeField] private float _maxSEVolume;
+    [SerializeField] private List<SEInfo> _seList = new List<SEInfo>();
 
     private AudioSource[] _audioSourceList = new AudioSource[20];
-    private Dictionary<string, SEInfo> _soundDictionary = new Dictionary<string, SEInfo>();
+    private Dictionary<string, SEInfo> _seDictionary = new Dictionary<string, SEInfo>();
     private float _volume;
  
     public override void Awake()
@@ -26,9 +26,9 @@ public class S_SEManager : Singleton<S_SEManager>
             _audioSourceList[i].priority = 128;
         }
  
-        foreach (var SEInfo in SEList)
+        foreach (var SEInfo in _seList)
         {
-            _soundDictionary.Add(SEInfo.name, SEInfo);
+            _seDictionary.Add(SEInfo.name, SEInfo);
         }
     }
 
@@ -37,7 +37,7 @@ public class S_SEManager : Singleton<S_SEManager>
     /// </summary>
     public void Play(string name)
     {
-        if (_soundDictionary.TryGetValue(name, out var SEInfo))
+        if (_seDictionary.TryGetValue(name, out var SEInfo))
         {
             var audioSource = GetUnusedAudioSource();
             if (audioSource == null) return;
@@ -50,7 +50,7 @@ public class S_SEManager : Singleton<S_SEManager>
     /// </summary>
     public void ChangeVolume(float volume)
     {
-        _volume = volume * MAX_VOLUME;
+        _volume = volume * _maxSEVolume;
         foreach (var audioSource in _audioSourceList)
         {
             audioSource.volume = _volume;

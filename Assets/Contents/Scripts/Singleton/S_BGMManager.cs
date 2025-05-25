@@ -17,6 +17,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
         [HideInInspector] public AudioSource audioSource;
         [HideInInspector] public CancellationTokenSource cancellationTokenSource;
         [HideInInspector] public BGMStatus status = BGMStatus.none;
+
         private int _clipIndex = 0;
         public int clipIndex
         {
@@ -36,18 +37,18 @@ public class S_BGMManager : Singleton<S_BGMManager>
         }
     }
 
-    [SerializeField] float MAX_VOLUME;
-    [SerializeField] List<BGMInfo> BGMList = new List<BGMInfo>();
+    [SerializeField] private float _maxBGMVolume;
+    [SerializeField] private List<BGMInfo> _bgmList = new List<BGMInfo>();
 
     private AudioSource[] _audioSourceList = new AudioSource[5];
-    private Dictionary<string, BGMInfo> _BGMDictionary = new Dictionary<string, BGMInfo>();
+    private Dictionary<string, BGMInfo> _bgmDictionary = new Dictionary<string, BGMInfo>();
     private float _volume;
  
     public override void Awake()
     {
         base.Awake();
 
-        for (int i = 0; i < BGMList.Count; ++i) _BGMDictionary.Add(BGMList[i].name, BGMList[i]);
+        for (int i = 0; i < _bgmList.Count; ++i) _bgmDictionary.Add(_bgmList[i].name, _bgmList[i]);
         for (int i = 0; i < _audioSourceList.Length; ++i)
         {
             _audioSourceList[i] = gameObject.AddComponent<AudioSource>();
@@ -58,7 +59,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     }
     public void Update()
     {
-        foreach (var item in _BGMDictionary.Values)
+        foreach (var item in _bgmDictionary.Values)
         {
             if (item.audioSource == null) continue;
             if ( (item.status == BGMStatus.fadeIn || item.status == BGMStatus.play || item.status == BGMStatus.fadeOut) && item.IsFinished())
@@ -83,7 +84,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
         }
         if (playingBGM.Any(x => x == name)) return;
         
-        if (_BGMDictionary.TryGetValue(name, out var BGMInfo))
+        if (_bgmDictionary.TryGetValue(name, out var BGMInfo))
         {
             if (BGMInfo.cancellationTokenSource != null) BGMInfo.cancellationTokenSource.Cancel();
             BGMInfo.cancellationTokenSource = new CancellationTokenSource();
@@ -143,7 +144,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// <param name="fadeTime">フェードアウトの時間</param>
     public void Stop(string name, float fadeTime)
     {
-        if (_BGMDictionary.TryGetValue(name, out var BGMInfo))
+        if (_bgmDictionary.TryGetValue(name, out var BGMInfo))
         {
             if (BGMInfo.cancellationTokenSource != null) BGMInfo.cancellationTokenSource.Cancel();
             BGMInfo.cancellationTokenSource = new CancellationTokenSource();
@@ -177,7 +178,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// <param name="fadeTime">フェードアウトの時間</param>
     public void Pause(string name, float fadeTime)
     {
-        if (_BGMDictionary.TryGetValue(name, out var BGMInfo))
+        if (_bgmDictionary.TryGetValue(name, out var BGMInfo))
         {
             if (BGMInfo.cancellationTokenSource != null) BGMInfo.cancellationTokenSource.Cancel();
             BGMInfo.cancellationTokenSource = new CancellationTokenSource();
@@ -208,7 +209,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// </summary>
     public void Mute()
     {
-        foreach (var item in _BGMDictionary.Values)
+        foreach (var item in _bgmDictionary.Values)
         {
             item.audioSource.pitch = 0;
         }
@@ -218,7 +219,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// </summary>
     public void UnMute()
     {
-        foreach (var item in _BGMDictionary.Values)
+        foreach (var item in _bgmDictionary.Values)
         {
             item.audioSource.pitch = 1;
         }
@@ -229,8 +230,8 @@ public class S_BGMManager : Singleton<S_BGMManager>
     /// </summary>
     public void ChangeVolume(float volume)
     {
-        _volume = volume * MAX_VOLUME;
-        foreach (var item in _BGMDictionary.Values)
+        _volume = volume * _maxBGMVolume;
+        foreach (var item in _bgmDictionary.Values)
         {
             if (item.status == BGMStatus.fadeIn || item.status == BGMStatus.play) item.audioSource.volume = _volume;
         }
@@ -242,7 +243,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     private List<string> GetPlayingBGM()
     {
         List<string> playingBGM = new List<string>();
-        foreach (var item in _BGMDictionary.Values)
+        foreach (var item in _bgmDictionary.Values)
         {
             if (item.status == BGMStatus.fadeIn || item.status == BGMStatus.play) playingBGM.Add(item.name);
         }
@@ -255,7 +256,7 @@ public class S_BGMManager : Singleton<S_BGMManager>
     private AudioSource GetUnusedAudioSource()
     {
         List<AudioSource> audioSourceList = _audioSourceList.ToList();
-        foreach (var item in _BGMDictionary.Values)
+        foreach (var item in _bgmDictionary.Values)
         {
             if (item.audioSource != null) audioSourceList.Remove(item.audioSource);
         }

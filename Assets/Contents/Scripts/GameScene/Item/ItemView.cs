@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ItemView : MonoBehaviour
 {
-    [SerializeField] Sprite _defaultSprite;
-    [SerializeField] Sprite _disableSprite;
+    [SerializeField] private Sprite _defaultSprite;
+    [SerializeField] private Sprite _disableSprite;
 
     private SpriteRenderer _spriteRenderer;
 

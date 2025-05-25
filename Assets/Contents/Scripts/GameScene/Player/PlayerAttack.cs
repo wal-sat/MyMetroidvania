@@ -4,10 +4,10 @@ using Cysharp.Threading.Tasks;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField] GameObject _attackPoint;
-    [SerializeField] float ATTACK_DISTANCE;
-    [SerializeField] float ATTACK_TIME;
-    [SerializeField] float ATTACK_COOL_TIME;
+    [SerializeField] private GameObject _attackPoint;
+    [SerializeField] private float _attackDistance;
+    [SerializeField] private float _attackTime;
+    [SerializeField] private float _attackCoolTime;
 
     public Action<PlayerState> changePlayerState;
     private bool _isAttacking;
@@ -19,8 +19,8 @@ public class PlayerAttack : MonoBehaviour
 
     public void AttackUpdate(bool isFacingRight)
     {
-        if (isFacingRight) _attackPoint.transform.localPosition = new Vector3(ATTACK_DISTANCE, 0, transform.localPosition.z);
-        else _attackPoint.transform.localPosition = new Vector3(-ATTACK_DISTANCE, 0, transform.localPosition.z);
+        if (isFacingRight) _attackPoint.transform.localPosition = new Vector3(_attackDistance, 0, transform.localPosition.z);
+        else _attackPoint.transform.localPosition = new Vector3(-_attackDistance, 0, transform.localPosition.z);
 
         if (S_InputSystemManager.Instance.isPushingAttack && !_isAttacking) Attack();
     }
@@ -29,14 +29,14 @@ public class PlayerAttack : MonoBehaviour
     {
         _isAttacking = true;
         _attackPoint.SetActive(true);
-        changePlayerState(PlayerState.attack);
+        changePlayerState(PlayerState.Attack);
 
-        await UniTask.WaitForSeconds(ATTACK_TIME);
+        await UniTask.WaitForSeconds(_attackTime);
 
         _attackPoint.SetActive(false);
-        changePlayerState(PlayerState.normal);
+        changePlayerState(PlayerState.Normal);
 
-        await UniTask.WaitForSeconds(ATTACK_COOL_TIME);
+        await UniTask.WaitForSeconds(_attackCoolTime);
 
         _isAttacking = false;
     }

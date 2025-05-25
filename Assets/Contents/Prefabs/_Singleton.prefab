@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7919ded1ea2ba1e4c884892a2eba5b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackPanelCanvasGroup: {fileID: 4319424788138427153}
+  _blackPanelCanvasGroup: {fileID: 4319424788138427153}
 --- !u!1 &1501927064865133047
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,8 +426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c99f63e89ff3e41a2c286afe5ead14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_VOLUME: 0.5
-  BGMList:
+  _maxBGMVolume: 0.3
+  _bgmList:
   - name: title
     audioClip:
     - {fileID: 8300000, guid: 3a1d00021c7438547a05b0251ca50106, type: 3}
@@ -438,7 +438,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: a98850c515752494d94cdd0dea1c07f5, type: 3}
     audioSource: {fileID: 0}
     status: 0
-  - name: ending
+  - name: clear
     audioClip:
     - {fileID: 8300000, guid: 747bb89e43818e149a9604bc854405ba, type: 3}
     audioSource: {fileID: 0}
@@ -634,16 +634,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d0f586005d1604499e020518597353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_VOLUME: 1
-  SEList:
+  _maxSEVolume: 0.8
+  _seList:
   - name: u_cursor
     audioClip: {fileID: 8300000, guid: f99ac88176bc71945b1b40a62ed67db8, type: 3}
   - name: u_submit
     audioClip: {fileID: 8300000, guid: 559d6b8442aa38b42a0acd3e8df5df9f, type: 3}
   - name: u_cancel
     audioClip: {fileID: 8300000, guid: 531974780da691043980d2057fd0f104, type: 3}
-  - name: -----
-    audioClip: {fileID: 0}
 --- !u!1 &8629892945189658084
 GameObject:
   m_ObjectHideFlags: 0

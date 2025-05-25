@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerJump : MonoBehaviour
 {
-    [SerializeField] Transform _landingChecker;
-    [SerializeField] LayerMask _groundLayer;
-    [SerializeField] private float JUMP_FORCE;
-    [SerializeField] private float JUMP_CANCEL_FORCE;
+    [SerializeField] private Transform _landingChecker;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private float _jumpCancelForce;
 
     private Rigidbody2D _rigidbody;
     private bool _isJumping;
@@ -23,12 +23,12 @@ public class PlayerJump : MonoBehaviour
     private void Jump()
     {
         _isJumping = true;
-        _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocityX, JUMP_FORCE);
+        _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocityX, _jumpForce);
     }
     private void JumpCancel()
     {
         _isJumping = false;
-        if (_rigidbody.linearVelocityY > 0f) _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocityX, _rigidbody.linearVelocityY / JUMP_CANCEL_FORCE);
+        if (_rigidbody.linearVelocityY > 0f) _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocityX, _rigidbody.linearVelocityY / _jumpCancelForce);
     }
 
     private bool IsLanding()

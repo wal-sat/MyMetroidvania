@@ -5,6 +5,7 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private Sprite _normalSprite;
     [SerializeField] private Sprite _attackSprite;
     private SpriteRenderer _spriteRenderer;
+    
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();

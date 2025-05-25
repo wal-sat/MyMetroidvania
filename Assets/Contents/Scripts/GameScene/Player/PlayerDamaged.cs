@@ -3,9 +3,9 @@ using Cysharp.Threading.Tasks;
 
 public class PlayerDamaged : MonoBehaviour
 {
-    [SerializeField] UIManager uiManager;
-    [SerializeField] GameObject DamageParticle;
-    [SerializeField] private float DAMAGE_COOL_TIME;
+    [SerializeField] private UIManager _uiManager;
+    [SerializeField] private GameObject _damageParticle;
+    [SerializeField] private float _damageCoolTime;
 
     private bool _isCoolTime;
 
@@ -27,10 +27,10 @@ public class PlayerDamaged : MonoBehaviour
         int currentHP = S_PlayerInformation.Instance.DamageHp(damage);
         if (currentHP <= 0) Death();
 
-        uiManager.DisplayDamageText(damage, transform.position, Color.red);
-        Instantiate(DamageParticle, transform.position + Vector3.back, Quaternion.identity);
+        _uiManager.DisplayDamageText(damage, transform.position, Color.red);
+        Instantiate(_damageParticle, transform.position + Vector3.back, Quaternion.identity);
 
-        await UniTask.WaitForSeconds(DAMAGE_COOL_TIME);
+        await UniTask.WaitForSeconds(_damageCoolTime);
         
         _isCoolTime = false;
     }
