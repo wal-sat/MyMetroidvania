@@ -15,20 +15,20 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        S_PlayerInformation.instance.SubscribeHPAmountUpdateCallback(HPTextUpdate);
-        S_PlayerInformation.instance.SubscribeCoinCountUpdateCallback(CoinTextUpdate);
-        S_PlayerInformation.instance.SubscribeCrystalCountUpdateCallback(CrystalTextUpdate);
+        S_PlayerInformation.Instance.SubscribeHPAmountUpdateCallback(HPTextUpdate);
+        S_PlayerInformation.Instance.SubscribeCoinCountUpdateCallback(CoinTextUpdate);
+        S_PlayerInformation.Instance.SubscribeCrystalCountUpdateCallback(CrystalTextUpdate);
     }
     private void OnDisable()
     {
-        if (S_PlayerInformation.instance != null) S_PlayerInformation.instance.SubscribeHPAmountUpdateCallback(HPTextUpdate, false);
-        if (S_PlayerInformation.instance != null) S_PlayerInformation.instance.SubscribeCoinCountUpdateCallback(CoinTextUpdate, false);
-        if (S_PlayerInformation.instance != null) S_PlayerInformation.instance.SubscribeCrystalCountUpdateCallback(CrystalTextUpdate, false);
+        if (S_PlayerInformation.Instance != null) S_PlayerInformation.Instance.SubscribeHPAmountUpdateCallback(HPTextUpdate, false);
+        if (S_PlayerInformation.Instance != null) S_PlayerInformation.Instance.SubscribeCoinCountUpdateCallback(CoinTextUpdate, false);
+        if (S_PlayerInformation.Instance != null) S_PlayerInformation.Instance.SubscribeCrystalCountUpdateCallback(CrystalTextUpdate, false);
     }
 
     private void HPTextUpdate(int hpAmount)
     {
-        hpText.text = hpAmount.ToString() + " / " + S_PlayerInformation.instance.MAX_HP_AMOUNT.ToString();
+        hpText.text = hpAmount.ToString() + " / " + S_PlayerInformation.Instance.MAX_HP_AMOUNT.ToString();
     }
     private void CoinTextUpdate(int coinCount)
     {

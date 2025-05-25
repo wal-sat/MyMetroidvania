@@ -1,146 +1,54 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using NaughtyAttributes;
 
-public enum TitleStatus { menu, setting }
+public enum TitleState { Menu, Setting }
 
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField] TitleMenu titleMenu;
-    [SerializeField] TitleSetting titleSetting;
-    [SerializeField] TitleUIManager titleUIManager;
-
-    private bool _isNavigateUp;
-    private bool _isNavigateDown;
-    private bool _isNavigateLeft;
-    private bool _isNavigateRight;
-    private bool _isSubmit;
-    private bool _isCancel;
-
-    private TitleStatus _titleStatus;
+    [SerializeField] private TitleMenuNavigate _titleMenuNavigate;
+    [SerializeField] private TitleMenuFunction _titleMenuFunction;
+    [SerializeField] private TitleSettingNavigate _titleSettingNavigate;
+    [SerializeField] private TitleSettingFunction _titleSettingFunction;
+    [SerializeField] private TitleUIManager _titleUIManager;
+    private TitleState _currentTitleState;
 
     private void Awake()
     {
-        titleMenu.ChangeTitleStatus = ChangeTitleStatus;
-        titleSetting.ChangeTitleStatus = ChangeTitleStatus;
+        _titleMenuFunction.ChangeTitleStateCallback = ChangeTitleState;
+        _titleSettingFunction.ChangeTitleStateCallback = ChangeTitleState;
+
+        ChangeTitleState(TitleState.Menu);
     }
     private void Start()
     {
-        S_InputSystemManager.instance.SwitchActionMap(ActionMapKind.UI);
-
-        S_BGMManager.instance.Play("title", 2f);
-
-        ChangeTitleStatus(TitleStatus.menu);
+        S_BGMManager.Instance.Play("title", 2f);
     }
-
     private void Update()
     {
-        if (S_InputSystemManager.instance.UIMove == Vector2.up && !_isNavigateUp) NavigateUp();
-        else if (S_InputSystemManager.instance.UIMove != Vector2.up && _isNavigateUp) _isNavigateUp = false;
-
-        if (S_InputSystemManager.instance.UIMove == Vector2.down && !_isNavigateDown) NavigateDown();
-        else if (S_InputSystemManager.instance.UIMove != Vector2.down && _isNavigateDown) _isNavigateDown = false;
-
-        if (S_InputSystemManager.instance.UIMove == Vector2.right && !_isNavigateRight) NavigateRight();
-        else if (S_InputSystemManager.instance.UIMove != Vector2.right && _isNavigateRight) _isNavigateRight = false;
-
-        if (S_InputSystemManager.instance.UIMove == Vector2.left && !_isNavigateLeft) NavigateLeft();
-        else if (S_InputSystemManager.instance.UIMove != Vector2.left && _isNavigateLeft) _isNavigateLeft = false;
-
-        if (S_InputSystemManager.instance.isPushingSubmit && !_isSubmit) Submit();
-        else if (!S_InputSystemManager.instance.isPushingSubmit && _isSubmit) _isSubmit = false;
-
-        if (S_InputSystemManager.instance.isPushingCancel && !_isCancel) Cancel();
-        else if (!S_InputSystemManager.instance.isPushingCancel && _isCancel) _isCancel = false;
-    }
-
-    private void NavigateUp()
-    {
-        _isNavigateUp = true;
-        switch (_titleStatus)
+        switch (_currentTitleState)
         {
-            case TitleStatus.menu:
-                titleMenu.NavigateUp();
+            case TitleState.Menu:
+                _titleMenuNavigate.NavigateUpdate();
                 break;
-            case TitleStatus.setting:
-                titleSetting.NavigateUp();
-                break;
-        }
-    }
-    private void NavigateDown()
-    {
-        _isNavigateDown = true;
-        switch (_titleStatus)
-        {
-            case TitleStatus.menu:
-                titleMenu.NavigateDown();
-                break;
-            case TitleStatus.setting:
-                titleSetting.NavigateDown();
-                break;
-        }
-    }
-    private void NavigateRight()
-    {
-        _isNavigateRight = true;
-        switch (_titleStatus)
-        {
-            case TitleStatus.menu:
-                break;
-            case TitleStatus.setting:
-                titleSetting.NavigateRight();
-                break;
-        }
-    }
-    private void NavigateLeft()
-    {
-        _isNavigateLeft = true;
-        switch (_titleStatus)
-        {
-            case TitleStatus.menu:
-                break;
-            case TitleStatus.setting:
-                titleSetting.NavigateLeft();
-                break;
-        }
-    }
-    private void Submit()
-    {
-        _isSubmit = true;
-        switch (_titleStatus)
-        {
-            case TitleStatus.menu:
-                titleMenu.Submit();
-                break;
-            case TitleStatus.setting:
-                titleSetting.Submit();
-                break;
-        }
-    }
-    private void Cancel()
-    {
-        _isCancel = true;
-        switch (_titleStatus)
-        {
-            case TitleStatus.menu:
-                break;
-            case TitleStatus.setting:
-                titleSetting.Cancel();
+            case TitleState.Setting:
+                _titleSettingNavigate.NavigateUpdate();
                 break;
         }
     }
 
-    private void ChangeTitleStatus(TitleStatus titleStatus)
+    private void ChangeTitleState(TitleState newState)
     {
-        _titleStatus = titleStatus;
+        _currentTitleState = newState;
 
-        switch (_titleStatus)
+        switch (_currentTitleState)
         {
-            case TitleStatus.menu:
-                titleUIManager.DisplaySettingPanel(false);
+            case TitleState.Menu:
+                _titleMenuNavigate.SelectInitial();
+                _titleUIManager.DisplaySettingPanel(false);
                 break;
-            case TitleStatus.setting:
-                titleUIManager.DisplaySettingPanel(true);
+            case TitleState.Setting:
+                _titleSettingNavigate.SelectInitial();
+                _titleUIManager.DisplaySettingPanel(true);
                 break;
         }
     }

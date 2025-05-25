@@ -6,6 +6,6 @@ public class Crystal : ItemBase
     {
         base.Get();
 
-        S_PlayerInformation.instance.IncrementCrystalCount();
+        S_PlayerInformation.Instance.IncrementCrystalCount();
     }
 }

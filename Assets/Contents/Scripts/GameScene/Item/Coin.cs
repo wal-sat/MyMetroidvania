@@ -6,6 +6,6 @@ public class Coin : ItemBase
     {
         base.Get();
 
-        S_PlayerInformation.instance.IncrementCoinCount();
+        S_PlayerInformation.Instance.IncrementCoinCount();
     }
 }

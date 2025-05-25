@@ -24,7 +24,7 @@ public class PlayerDamaged : MonoBehaviour
     {
         if (_isCoolTime) return;
         _isCoolTime = true;
-        int currentHP = S_PlayerInformation.instance.DamageHp(damage);
+        int currentHP = S_PlayerInformation.Instance.DamageHp(damage);
         if (currentHP <= 0) Death();
 
         uiManager.DisplayDamageText(damage, transform.position, Color.red);

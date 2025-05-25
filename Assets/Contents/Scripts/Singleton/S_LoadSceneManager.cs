@@ -11,8 +11,8 @@ public class S_LoadSceneManager : Singleton<S_LoadSceneManager>
 
     public async void LoadScene(SceneKind sceneKind)
     {
-        S_InputSystemManager.instance.SetLockInputDictionary(this.gameObject, true);
-        S_FadeManager.instance.FadeOut(FADE_TIME);
+        S_InputSystemManager.Instance.SetLockInputDictionary(this.gameObject, true);
+        S_FadeManager.Instance.FadeOut(FADE_TIME);
 
         await UniTask.WaitForSeconds(FADE_TIME);
 
@@ -20,8 +20,8 @@ public class S_LoadSceneManager : Singleton<S_LoadSceneManager>
 
         await UniTask.WaitForSeconds(FADE_TIME / 2);
 
-        S_InputSystemManager.instance.SetLockInputDictionary(this.gameObject, false);
-        S_FadeManager.instance.FadeIn(FADE_TIME);
+        S_InputSystemManager.Instance.SetLockInputDictionary(this.gameObject, false);
+        S_FadeManager.Instance.FadeIn(FADE_TIME);
     }
 }
 

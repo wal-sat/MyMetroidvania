@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Initialize()
     {
-        S_PlayerInformation.instance.Initialize();
+        S_PlayerInformation.Instance.Initialize();
         _playerState = PlayerState.normal; 
     }
 }
