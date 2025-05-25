@@ -162,5 +162,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64c65afecccdde4b8a1260b068d80aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DAMAGE_TEXT_LIFE_TIME: 1.5
-  DAMAGE_TEXT_MOVE_DiSTANCE: 100
+  _damageTextLifeTime: 1
+  _damageTextMoveDistance: 100
